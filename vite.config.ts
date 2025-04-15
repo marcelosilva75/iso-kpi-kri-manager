@@ -9,12 +9,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  base: "./",  // Adicione ou ajuste a base para garantir que os arquivos sejam resolvidos corretamente
   server: {
     host: true,
     strictPort: true,
     port: 5173,
     allowedHosts: [
-      ".gitpod.io", // Permite acesso externo no Gitpod
+      ".gitpod.io",
     ],
   },
 });
+

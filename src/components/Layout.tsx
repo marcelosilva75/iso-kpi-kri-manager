@@ -1,22 +1,51 @@
-import Link from "next/link";
+import { Link, useLocation } from "react-router-dom";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
 
-export default function Layout({ children }: LayoutProps) {
+  const menuItems = [
+    { name: "Início", path: "/" },
+    { name: "Empresas", path: "/empresas" },
+    { name: "Avaliações", path: "/avaliacoes" },
+    { name: "KPIs", path: "/kpi" },
+    { name: "KRIs", path: "/kri" },
+    { name: "Indicadores", path: "/indicadores" },
+    { name: "Evolução", path: "/evolucao" }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <header className="bg-blue-700 text-white py-4 px-6">
-        <h1 className="text-xl font-bold">ISO KPI/KRI Manager</h1>
-        <nav className="mt-2 flex gap-4">
-          <Link href="/empresas" className="hover:underline">Empresas</Link>
-          <Link href="/kpi" className="hover:underline">KPIs</Link>
-          <Link href="/kri" className="hover:underline">KRIs</Link>
-          <Link href="/evolucao" className="hover:underline">Evolução</Link>
+    <div className="flex min-h-screen bg-gray-100 text-gray-800">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-md px-4 py-6">
+        <h1 className="text-2xl font-bold mb-6">ISO 27001</h1>
+        <nav className="space-y-2">
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`block px-4 py-2 rounded hover:bg-blue-100 ${
+                location.pathname === item.path ? "bg-blue-200 font-semibold" : ""
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
         </nav>
-      </header>
-      <main className="p-6">{children}</main>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6">
+        {/* Header */}
+        <header className="mb-6 border-b pb-4">
+          <h2 className="text-xl font-semibold">Gerenciador ISO 27001</h2>
+          <p className="text-sm text-gray-600">
+            Acompanhe certificação, KPIs, KRIs e evolução das empresas.
+          </p>
+        </header>
+
+        {/* Conteúdo da página */}
+        <section>{children}</section>
+      </main>
     </div>
   );
 }
