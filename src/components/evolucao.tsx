@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import EvolucaoGrafico from "@/components/EvolucaoGrafico";
 
 export default function EvolucaoPage() {
-  const empresaId = "ID_DA_EMPRESA"; // Substitua pelo ID da empresa ou use um selector
+  const empresaId = "ID_DA_EMPRESA"; // Substitua pelo ID da empresa ou use um selector para pegá-lo dinamicamente
 
   return (
     <Layout>

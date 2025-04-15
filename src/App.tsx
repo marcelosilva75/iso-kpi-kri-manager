@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-// Importando as páginas
 import HomePage from "./pages/HomePage";
 import Empresas from "./pages/empresas";
 import Avaliacoes from "./pages/avaliacoes";
@@ -10,6 +9,7 @@ import Indicadores from "./pages/indicadores";
 import KPI from "./pages/kpi";
 import KRI from "./pages/kri";
 import TestePage from "./pages/testepage";
+import ControlesISO from "./pages/ControlesISO"; // ✅ Importação correta
 
 const App: React.FC = () => {
   return (
@@ -30,6 +30,7 @@ const App: React.FC = () => {
           <Link to="/kpi" className="hover:underline">KPIs</Link>
           <Link to="/kri" className="hover:underline">KRIs</Link>
           <Link to="/testepage" className="hover:underline">Teste</Link>
+          <Link to="/controles-iso" className="hover:underline">Controles ISO</Link> {/* ✅ novo menu */}
         </nav>
 
         {/* Rotas */}
@@ -43,6 +44,7 @@ const App: React.FC = () => {
             <Route path="/kpi" element={<KPI />} />
             <Route path="/kri" element={<KRI />} />
             <Route path="/testepage" element={<TestePage />} />
+            <Route path="/controles-iso" element={<ControlesISO />} /> {/* ✅ nova rota */}
           </Routes>
         </main>
       </div>
@@ -51,3 +53,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+

@@ -1,4 +1,5 @@
 // src/components/EvolucaoGrafico.tsx
+// src/components/EvolucaoGrafico.tsx
 import { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
 import { supabase } from "@/lib/supabaseClient";
@@ -9,26 +10,53 @@ interface Evolucao {
   kpi_id: string | null;
   kri_id: string | null;
   valor: number;
-  data: string;
+  data: string; // Certifique-se de que `data` seja uma string representando a data
 }
 
 export default function EvolucaoGrafico({ empresaId }: { empresaId: string }) {
   const [dados, setDados] = useState<Evolucao[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDados = async () => {
-      const { data, error } = await supabase
-        .from("evolucao_kpi_kri")
-        .select("*")
-        .eq("empresa_id", empresaId)
-        .order("data", { ascending: true });
+      setCarregando(true);
+      setErro(null); // Resetando erro anterior
+      try {
+        const { data, error } = await supabase
+          .from("evolucao_kpi_kri")
+          .select("*")
+          .eq("empresa_id", empresaId)
+          .order("data", { ascending: true });
 
-      if (data) setDados(data);
-      if (error) console.error("Erro ao buscar evolução:", error.message);
+        if (error) throw error;
+        setDados(data || []);
+      } catch (error: any) {
+        setErro("Erro ao buscar dados de evolução: " + error.message);
+      } finally {
+        setCarregando(false);
+      }
     };
 
     fetchDados();
   }, [empresaId]);
+
+  // Se estiver carregando ou ocorrer erro, exibe a mensagem
+  if (carregando) {
+    return (
+      <div className="w-full h-96 flex justify-center items-center">
+        <span>Carregando...</span>
+      </div>
+    );
+  }
+
+  if (erro) {
+    return (
+      <div className="w-full h-96 flex justify-center items-center text-red-500">
+        <span>{erro}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-96">
@@ -44,4 +72,6 @@ export default function EvolucaoGrafico({ empresaId }: { empresaId: string }) {
       </ResponsiveContainer>
     </div>
   );
+}
+
 }

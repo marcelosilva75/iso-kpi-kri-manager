@@ -1,20 +1,28 @@
-// services/empresaService.ts
 import { supabase } from "@/lib/supabaseClient";
 
-export interface Empresa {
+export type Empresa = {
   id: string;
   nome: string;
-  cnpj?: string;
-  setor?: string;
-  data_cadastro?: string;
-}
+  cnpj: string;
+  setor: string;
+};
 
-// Lista todas as empresas
-export async function listarEmpresas(): Promise<Empresa[]> {
-  const { data, error } = await supabase.from("empresa").select("*").order("data_cadastro", { ascending: false });
-  if (error) throw new Error(error.message);
+export const listarEmpresas = async (): Promise<Empresa[]> => {
+  const { data, error } = await supabase.from("empresas").select("*");
+  if (error) throw error;
   return data as Empresa[];
-}
+};
+
+export const cadastrarEmpresa = async (empresa: Omit<Empresa, "id">): Promise<void> => {
+  const { error } = await supabase.from("empresas").insert([empresa]);
+  if (error) throw error;
+};
+
+export const excluirEmpresa = async (empresaId: string): Promise<void> => {
+  const { error } = await supabase.from("empresas").delete().eq("id", empresaId);
+  if (error) throw error;
+};
+
 
 // Cadastra uma nova empresa
 export async function cadastrarEmpresa(novaEmpresa: Omit<Empresa, "id" | "data_cadastro">): Promise<Empresa> {

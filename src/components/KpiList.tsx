@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listKpis } from "@/services/kpiKriService";
+import { listKpis } from "@/services/kpiKriService"; // Verifique se o caminho está correto
 
 export default function KpiList() {
   const [kpis, setKpis] = useState<any[]>([]);

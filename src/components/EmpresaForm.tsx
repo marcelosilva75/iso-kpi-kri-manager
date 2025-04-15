@@ -1,4 +1,3 @@
-// src/components/EmpresaForm.tsx
 import { useState } from "react";
 import { cadastrarEmpresa } from "@/services/empresaService";
 
